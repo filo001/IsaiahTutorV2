@@ -7,7 +7,6 @@ const router = require('./routes/router')
 // database 
 const mongoose = require('mongoose')
 require('dotenv/config')
-// TODO : PUT PROXY INTO CLIENT
 
 // application
 const app = express()
