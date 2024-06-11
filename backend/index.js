@@ -5,7 +5,9 @@ const bodyParser = require('body-parser')
 const router = require('./routes/router')
 
 // database 
-// TODO : LINK DATABASE
+const mongoose = require('mongoose')
+require('dotenv/config')
+// TODO : PUT PROXY INTO CLIENT
 
 // application
 const app = express()
@@ -18,6 +20,12 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 app.use('/', router)
+
+// database connection
+dbOptions = {useNewUrlParser:true, useUnifiedTopology:true}
+mongoose.connect(process.env.DB_URI, dbOptions)
+.then(() => console.log('DB connected!'))
+.catch(error => console.log(error))
 
 // port initialization
 const port = process.env.PORT || 4000 
