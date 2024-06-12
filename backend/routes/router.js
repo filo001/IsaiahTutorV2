@@ -14,14 +14,14 @@ router.post('/auth', async (req, res) => {
         res.send(result)
         return
     }
-    // There is a valid entry
+    // There is a valid entry  
     if (userData[0].pass != pass) {
         result.message = "ERROR, PASSWORD INVALID"
         res.send(result)
         return
     }
     // There is a valid entry and the password is the correct one
-    users.findOneAndUpdate({name: user}, {lastLoggedIn: (new Date).toLocaleString()}, null).exec()
+    users.findOneAndUpdate({name: user}, {lastLoggedIn: Date.now()}, null).exec()
     result.message = JSON.stringify(String(userData))
     result.userObj = userData[0]
     result.auth = true
@@ -32,6 +32,7 @@ router.get('/students', async(req, res) => {
     const students = schemas.Users
     const studentData = await students.find({admin: false}).exec()
     if (studentData) {
+        console.log(studentData[0].lastLoggedIn)
         res.send(studentData)
     }
 })

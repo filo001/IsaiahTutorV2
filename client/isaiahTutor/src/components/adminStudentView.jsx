@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+
+TimeAgo.addDefaultLocale(en)
 
 function AdminStudentView() {
-
+    const timeAgo = new TimeAgo('en-AU')
     const [students, setStudents] = useState([])
 
     async function fetchStudentData(){
@@ -35,7 +40,7 @@ function AdminStudentView() {
                     return(
                         <tr key={student._id}>
                             <td>{student.name}</td>
-                            <td>{student.lastLoggedIn}</td>
+                            <td>{timeAgo.format(new Date(student.lastLoggedIn))}</td>
                         </tr>
                     )
                 })}
