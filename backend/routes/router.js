@@ -6,7 +6,7 @@ const schemas = require('../models/schemas')
 
 router.post('/auth', async (req, res) => {
     const {user, pass} = req.body
-    const result = {message: '', auth: false}
+    const result = {message: '', auth: false, userObj: undefined}
     const users = schemas.Users
     const userData = await users.find({ name: user }).exec()
     if (userData[0] === undefined) {
@@ -22,6 +22,7 @@ router.post('/auth', async (req, res) => {
     }
     // There is a valid entry and the password is the correct one
     result.message = JSON.stringify(String(userData))
+    result.userObj = userData[0]
     result.auth = true
     res.send(result)
 })

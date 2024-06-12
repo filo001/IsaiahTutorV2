@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 
-function Auth () {
+function Auth ({ setUser, setAuthSession }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
@@ -20,7 +20,13 @@ function Auth () {
         .then(res => {
             setMessage(res.data.message)
             if (res.data.auth) {
-                console.log("logging in")
+                console.log("logging in") // handle success here
+                setUser(res.data.userObj)
+                setAuthSession(1)
+                sessionStorage.setItem("authTok", 1)
+                // Setting session token and validating user
+
+                // TODO: SET CURRENT SESSION TO CURRENT USER
             }
         })
         .catch(err => console.log(err))

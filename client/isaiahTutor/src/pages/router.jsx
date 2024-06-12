@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter, Outlet} from "react-router-dom"
+import Home from "./home"
 
 function Router() {
     // add layout?
@@ -6,9 +7,13 @@ function Router() {
     const BrowserRoutes = createBrowserRouter([
         {
             path: '/',
-            element: <></>
+            element: <Home />
         }
     ])
+
+    return (
+        <RouterProvider router={BrowserRoutes}/>
+    )
 }
 
 export default Router
