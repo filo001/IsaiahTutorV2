@@ -6,7 +6,8 @@ const userSchema = new Schema({
     pass: {type:String},
     admin: {type: Boolean},
     courses: {type:Array},
-    homework: {type:Array}
+    homework: {type:Array},
+    lastLoggedIn: {type: String}
 })
 
 const courseSchema = new Schema({

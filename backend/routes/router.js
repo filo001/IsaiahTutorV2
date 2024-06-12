@@ -21,10 +21,19 @@ router.post('/auth', async (req, res) => {
         return
     }
     // There is a valid entry and the password is the correct one
+    users.findOneAndUpdate({name: user}, {lastLoggedIn: (new Date).toLocaleString()}, null).exec()
     result.message = JSON.stringify(String(userData))
     result.userObj = userData[0]
     result.auth = true
     res.send(result)
+})
+
+router.get('/students', async(req, res) => {
+    const students = schemas.Users
+    const studentData = await students.find({admin: false}).exec()
+    if (studentData) {
+        res.send(studentData)
+    }
 })
 
 

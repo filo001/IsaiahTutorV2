@@ -1,6 +1,7 @@
 import Auth from './components/auth'
 import UserContext from './components/context'
 import Home from './pages/home'
+import './app.css'
 import { useEffect, useState } from 'react'
 
 function App() {
