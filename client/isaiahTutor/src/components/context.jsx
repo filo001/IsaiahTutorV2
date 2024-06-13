@@ -1,5 +1,4 @@
 import { createContext } from "react";
 
-const UserContext = createContext(undefined)
-
-export default UserContext
+export const UserContext = createContext(undefined)
+export const StudentContext = createContext([])

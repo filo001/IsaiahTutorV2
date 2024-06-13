@@ -1,4 +1,4 @@
-import UserContext from "../components/context"
+import { UserContext } from "../components/context"
 import { useContext } from "react"
 import Admin from "./admin"
 import Student from "./student"

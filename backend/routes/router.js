@@ -29,6 +29,7 @@ router.post('/auth', async (req, res) => {
 })
 
 router.get('/students', async(req, res) => {
+    // AdminStudentView request
     const students = schemas.Users
     const studentData = await students.find({admin: false}).exec()
     if (studentData) {
