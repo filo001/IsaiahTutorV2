@@ -52,13 +52,14 @@ function AdminStudentAdd ({ setAdding }) {
 
     function handleSubmit(e) {
         e.preventDefault()
+        console.log(formData)
     }
 
     return (
         <div className="card" >
             <form className="card-body" onSubmit={handleSubmit}>
                 <span>
-                    <label>Name: </label>
+                    <label>Student Name: </label>
                     <input className="form-control" type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}/>
                     <label>Password: </label>
                     <input className="form-control" type="password" value={formData.pass} onChange={(e) => setFormData({...formData, pass: e.target.value})} />

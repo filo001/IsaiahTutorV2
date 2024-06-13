@@ -13,7 +13,7 @@ function Home({setAuthSession}) {
         <div className="container-fluid w-100 d-flex flex-column p-3 align-items-center min-vh-100 gap-5">
             <Welcome />
             {user.admin ? <Admin /> : <Student/>}
-            <Button onClick={() => setAuthSession(0)} className="">Log out</Button>
+            <Button onClick={() => setAuthSession(0)} className="btn-outline-danger btn-light">Log out</Button>
         </div>
        
     )

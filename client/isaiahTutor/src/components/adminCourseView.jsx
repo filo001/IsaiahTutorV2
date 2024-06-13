@@ -1,7 +1,7 @@
 function AdminCourseView() {
     return (
-        <div className="w-100">
-            <h2>Courses</h2>
+        <div className="w-100 p-2 bg-light rounded">
+            <h2>Courses Overview</h2>
         </div>
 
     )
