@@ -33,8 +33,15 @@ router.get('/students', async(req, res) => {
     const students = schemas.Users
     const studentData = await students.find({admin: false}).exec()
     if (studentData) {
-        console.log(studentData[0].lastLoggedIn)
         res.send(studentData)
+    }
+})
+
+router.get('/courses', async(req, res) => {
+    const courses = schemas.Courses
+    const coursesData = await courses.find({}).exec()
+    if (coursesData) {
+        res.send(coursesData)
     }
 })
 

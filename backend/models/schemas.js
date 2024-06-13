@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
     name: {type:String},
     pass: {type:String},
-    admin: {type: Boolean},
+    admin: {type: Boolean, default: false},
     courses: {type:Array},
     homework: {type:Array},
     lastLoggedIn: {type: Date}

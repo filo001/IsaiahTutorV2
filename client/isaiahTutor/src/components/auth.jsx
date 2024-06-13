@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
+import Button from 'react-bootstrap/Button'
 
 function Auth ({ setUser, setAuthSession }) {
     const [username, setUsername] = useState('')
@@ -33,16 +34,18 @@ function Auth ({ setUser, setAuthSession }) {
     }
 
     return (
-        <>
-        <form action="POST">
-            <p>Username</p>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-            <p>Password</p>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button type='submit' onClick={handleSubmit}>Login</button>
-            <p>{message}</p>
-        </form>
-        </>
+        <div className='container-fluid d-flex align-items-center justify-content-center min-vh-100'>
+            <form action="POST" >
+                <p className='mt-2'>Username</p>
+                <input className='form-control' type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                <p className='mt-2'>Password</p>
+                <input className='form-control' type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <div>
+                    <Button type='submit' onClick={handleSubmit} className='w-100 p-1 mt-4'>Login</Button>
+                </div>
+                <p>{message}</p>
+            </form>
+        </div>
     )
 }
 

@@ -1,17 +1,17 @@
-import { useContext, useState } from "react"
-import { StudentContext } from "./context"
+import { useState } from "react"
 import AdminStudentAll from "./adminStudentAll"
 import AdminStudentOverview from "./adminStudentOverview"
 
-function AdminStudentView() {
+function AdminStudentView({fetchStudentData}) {
     
     const [currentStudent, setCurrentStudent] = useState(undefined)
-    const students = useContext(StudentContext)
+
 
     return (
-        <>
-            {currentStudent ? <AdminStudentOverview currentStudent={currentStudent} setCurrentStudent={setCurrentStudent} /> : <AdminStudentAll setCurrentStudent={setCurrentStudent}/>}
-        </>
+        <div className="w-100 p-2 bg-light rounded">
+            {currentStudent ? <AdminStudentOverview currentStudent={currentStudent} setCurrentStudent={setCurrentStudent} /> : 
+            <AdminStudentAll setCurrentStudent={setCurrentStudent} fetchStudentData={fetchStudentData}/>}
+        </div>
     )
 }
 
