@@ -7,7 +7,7 @@ function AdminCourseView({fetchCourses}) {
     const [currentCourse, setCurrentCourse] = useState(undefined)
 
     return (
-        <div className="w-100 p-2 bg-light rounded">
+        <div className="w-100 p-2 bg-light rounded user-select-none">
             {currentCourse ? <AdminCourseOverview currentCourse={currentCourse} setCurrentCourse={setCurrentCourse}/> : 
             <AdminCourseAll  setCurrentCourse={setCurrentCourse} fetchCourses={fetchCourses}/>}
         </div>

@@ -18,7 +18,7 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses}) {
 
     function handleStudentItem(student) {
         return(
-            <tr key={student._id}>
+            <tr key={student._id} className="user-select-none">
                 <td><a href="#" onClick={() => handleClick(student)}>{student.name}</a></td>
                 <td>{timeAgo.format(new Date(student.lastLoggedIn))}</td>
                 <td><Button variant="danger" onClick={() => setDeletedUser(student)}>Delete Student</Button></td>
@@ -43,10 +43,10 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses}) {
 
     return (
         <>
-            <h2>Students Overview</h2>
+            <h2 className="user-select-none">Students Overview</h2>
             <table className="table table-hover">
                 <thead className="thead-dark">
-                    <tr>
+                    <tr className="user-select-none">
                         <th>Student Name</th>
                         <th>Last Login</th>
                         <th>Action</th>
@@ -64,7 +64,7 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses}) {
             </Modal>
             <Modal show={deletedUser === undefined ? false : true}>
                 <Modal.Header>
-                    <Modal.Title>
+                    <Modal.Title className="user-select-none">
                         Are you sure you want to delete this user?
                     </Modal.Title>
                 </Modal.Header>

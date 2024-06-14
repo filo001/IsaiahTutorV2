@@ -8,7 +8,7 @@ function AdminStudentOverview({currentStudent, setCurrentStudent}) {
 
     return (
         <>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between user-select-none">
             <span>Showing <span style={{fontWeight:700}}>{currentStudent.name}</span>'s Overview</span>
             <Button className="rounded btn-danger btn-sm" onClick={handleClose}>Close</Button>  
         </div>

@@ -61,7 +61,7 @@ function AdminStudentAdd ({ setAdding, fetchStudentData, fetchCourses}) {
 
     return (
         <div className="card" >
-            <form className="card-body" onSubmit={handleSubmit}>
+            <form className="card-body user-select-none" onSubmit={handleSubmit}>
                 <span>
                     <label>Student Name: </label>
                     <input className="form-control" type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}/>
