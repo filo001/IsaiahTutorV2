@@ -17,7 +17,7 @@ function Auth ({ setUser, setAuthSession }) {
             user: username,
             pass: password
         }
-        await axios.post('/auth', data)
+        await axios.post(`${import.meta.env.VITE_ENDPOINT}/auth`, data)
         .then(res => {
             setMessage(res.data.message)
             if (res.data.auth) {
