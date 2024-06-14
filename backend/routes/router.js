@@ -4,8 +4,8 @@ const schemas = require('../models/schemas')
 
 // add post and get requests here
 
-router.post('/helloworld', async (req, res) => {
-    res.send('hello world')
+router.post('/', async (req, res) => {
+    res.send({message: "Hello world!"})
 })
 
 router.post('/auth', async (req, res) => {
