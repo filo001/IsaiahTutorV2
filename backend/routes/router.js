@@ -4,6 +4,10 @@ const schemas = require('../models/schemas')
 
 // add post and get requests here
 
+router.post('/helloworld', async (req, res) => {
+    res.send('hello world')
+})
+
 router.post('/auth', async (req, res) => {
     const {user, pass} = req.body
     const result = {message: '', auth: false, userObj: undefined}
