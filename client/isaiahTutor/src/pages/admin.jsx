@@ -12,7 +12,7 @@ function Admin() {
     // Fetching data
     async function fetchStudentData(){
         // Fetch all students array
-        await axios.get('/students')
+        await axios.get(`${import.meta.env.VITE_ENDPOINT}/students`)
         .then(res => {
             console.log("Students Found")
             setStudents(res.data)
@@ -21,7 +21,7 @@ function Admin() {
     }
     async function fetchCourses() {
         // fetch all courses into here
-        await axios.get('/courses')
+        await axios.get(`${import.meta.env.VITE_ENDPOINT}/courses`)
         .then(
             res => {
                 setCourses(res.data)

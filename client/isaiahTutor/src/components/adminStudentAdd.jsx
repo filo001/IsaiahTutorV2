@@ -49,7 +49,7 @@ function AdminStudentAdd ({ setAdding, fetchStudentData, fetchCourses}) {
             return
         }
         console.log(formData)
-        await axios.post('/addStudent', formData)
+        await axios.post(`${import.meta.env.VITE_ENDPOINT}/addStudent`, formData)
         .then(res => {
             setError(res.data)
             console.log(error)
