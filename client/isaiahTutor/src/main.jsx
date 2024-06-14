@@ -4,7 +4,5 @@ import App from './App.jsx'
 import 'react-bootstrap/dist/react-bootstrap.min.js'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>,
 )
