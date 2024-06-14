@@ -17,7 +17,6 @@ function App() {
 
   return (
     <>
-      {/* students context provider will not dynamically update */}
       <UserContext.Provider value={user}>
           {(authSession && user != undefined) ?  <Home setAuthSession={setAuthSession} /> :<Auth setUser={setUser} setAuthSession={setAuthSession}/>}
         </UserContext.Provider>  
