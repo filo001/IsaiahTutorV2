@@ -1,14 +1,15 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { StudentContext } from "./context"
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import AdminStudentAdd from "./adminStudentAdd"
 import { Modal } from 'react-bootstrap';
 import Button from "react-bootstrap/esm/Button"
+import axios from "axios"
 
 TimeAgo.addDefaultLocale(en)
 
-function AdminStudentAll({setCurrentStudent, fetchStudentData}) {
+function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses}) {
     const timeAgo = new TimeAgo('en-AU')
     const students = useContext(StudentContext)
     const [adding, setAdding] = useState(false)
@@ -20,18 +21,20 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData}) {
             <tr key={student._id}>
                 <td><a href="#" onClick={() => handleClick(student)}>{student.name}</a></td>
                 <td>{timeAgo.format(new Date(student.lastLoggedIn))}</td>
-                <td><Button onClick={() => setDeletedUser(student)}>Delete Student</Button></td>
+                <td><Button variant="danger" onClick={() => setDeletedUser(student)}>Delete Student</Button></td>
             </tr>
         )
     }
 
-    function handleStudentDelete() {    
+    async function handleStudentDelete() {    
         if (deleteForm === deletedUser.name) {
-            alert('student deleted')
-            // delete from database here
+          await axios.post('http://localhost:4000/deleteStudent', deletedUser)
+          .then(res => console.log(res))
+          .catch(err => console.log(err))  
         }
         setDeleteForm('')
         setDeletedUser(undefined)
+        fetchStudentData()
     }
 
     function handleClick(student) {
@@ -57,7 +60,7 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData}) {
             </table>
             <Button onClick={() => setAdding(true)}>Add New Student +</Button>
             <Modal show={adding}>
-                <AdminStudentAdd setAdding={setAdding} />
+                <AdminStudentAdd fetchStudentData={fetchStudentData} setAdding={setAdding} fetchCourses={fetchCourses} />
             </Modal>
             <Modal show={deletedUser === undefined ? false : true}>
                 <Modal.Header>
@@ -69,7 +72,7 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData}) {
                     This Student will be permanently deleted, 
                     to confirm this, type '{deletedUser == undefined ? '' : deletedUser.name}'
                     <input onChange={e => setDeleteForm(e.target.value)} value={deleteForm} type="text" className="form-control"/>
-                    <Button onClick={handleStudentDelete} className="btn-danger">Confirm Delete</Button>
+                    <Button onClick={handleStudentDelete} className="btn-danger" disabled={(deletedUser) && !(deleteForm === deletedUser.name)}>Confirm Delete</Button>
                     <Button onClick={() => setDeletedUser(undefined)}>Cancel</Button>
                 </Modal.Body>
                 

@@ -45,5 +45,26 @@ router.get('/courses', async(req, res) => {
     }
 })
 
+router.post('/addStudent', async(req, res, next) => {
+    const {name, pass, courses} = req.body
+    const students = schemas.Users 
+    const studentData = await students.find({}).exec()
+    const names = studentData.map(student => student.name)
+    if (names.includes(name)) {
+        res.send({success: false, msg: 'That name already exists!'})
+        return
+    }
+    
+    students.create({name: name, pass: pass, courses: courses})
+
+    res.send({success: true, msg: 'User has been added'})
+    
+})
+
+router.post('/deleteStudent', async(req, res) => {
+    const students = schemas.Users
+    students.deleteOne({name: req.body.name}).exec()
+    res.send(`Student ${req.body.name} deleted!`)
+})
 
 module.exports = router

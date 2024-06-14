@@ -4,6 +4,7 @@ import './app.css'
 import { useEffect, useState } from 'react'
 import { UserContext } from './components/context'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios'
 
 function App() {
   const [user, setUser] = useState(undefined)

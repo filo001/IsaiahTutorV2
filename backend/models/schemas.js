@@ -7,7 +7,7 @@ const userSchema = new Schema({
     admin: {type: Boolean, default: false},
     courses: {type:Array},
     homework: {type:Array},
-    lastLoggedIn: {type: Date}
+    lastLoggedIn: {type: Date, default: Date.now}
 })
 
 const courseSchema = new Schema({

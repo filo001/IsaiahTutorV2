@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import Button from "react-bootstrap/esm/Button"
+import { CourseContext } from "./context"
 
-function AdminStudentAdd ({ setAdding }) {
-    const [courses, setCourses] = useState([])
-
+function AdminStudentAdd ({ setAdding, fetchStudentData, fetchCourses}) {
+    const courses = useContext(CourseContext)
+    const [error, setError] = useState({success: false, msg: ''})
     const [formData, setFormData] = useState({
         name: '',
         pass: '',
@@ -14,22 +15,13 @@ function AdminStudentAdd ({ setAdding }) {
     useEffect(
         () => {
             fetchCourses()
-        }, []
+            fetchStudentData()
+        }, [error]
     )
-    async function fetchCourses() {
-        // fetch all courses into here
-        await axios.get('http://localhost:4000/courses')
-        .then(
-            res => {
-                setCourses(res.data)
-                console.log('Courses initailized')
-            }
-        )
-    }
 
     function processCourse(course) {
         function handleCourseAdd() {
-            // adding names for now
+            // Adding Course Name to list
             if (formData.courses.includes(course.name)) {
                 const new_array = formData.courses
                 .filter(curr => curr != course.name )
@@ -50,9 +42,21 @@ function AdminStudentAdd ({ setAdding }) {
         )
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
+        if (!formData.courses.length || !formData.pass || !formData.name.length) {
+            setError({success: false, msg: "At least one field is not filled"})
+            return
+        }
         console.log(formData)
+        await axios.post('http://localhost:4000/addStudent', formData)
+        .then(res => {
+            setError(res.data)
+            console.log(error)
+
+        })
+        .catch(err => console.log(err))
+
     }
 
     return (
@@ -73,11 +77,13 @@ function AdminStudentAdd ({ setAdding }) {
                         })}
                     </div>
                 </div>
+                {Boolean(error.msg) && <div className={"mt-3 alert " + (error.success ? "alert-success" : "alert-danger")}>{error.msg}</div>}
                 <div className="d-flex justify-content-between mt-3">
                     <Button onClick={() => setAdding(false)}>Cancel</Button>
-                    <Button type='submit'>Create Student</Button>
+                    <Button variant="success" disabled={!formData.courses.length || !formData.name.length || !formData.pass.length} type='submit'>Create Student</Button>
                 </div>
             </form>
+            
         </div>
     )
 }
