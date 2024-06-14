@@ -12,7 +12,7 @@ function Admin() {
     // Fetching data
     async function fetchStudentData(){
         // Fetch all students array
-        await axios.get('http://localhost:4000/students')
+        await axios.get('/students')
         .then(res => {
             console.log("Students Found")
             setStudents(res.data)
@@ -21,7 +21,7 @@ function Admin() {
     }
     async function fetchCourses() {
         // fetch all courses into here
-        await axios.get('http://localhost:4000/courses')
+        await axios.get('/courses')
         .then(
             res => {
                 setCourses(res.data)

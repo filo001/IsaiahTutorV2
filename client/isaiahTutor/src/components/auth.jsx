@@ -17,7 +17,7 @@ function Auth ({ setUser, setAuthSession }) {
             user: username,
             pass: password
         }
-        await axios.post('http://localhost:4000/auth', data)
+        await axios.post('/auth', data)
         .then(res => {
             setMessage(res.data.message)
             if (res.data.auth) {
