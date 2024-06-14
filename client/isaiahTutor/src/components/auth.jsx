@@ -21,7 +21,7 @@ function Auth ({ setUser, setAuthSession }) {
         .then(res => {
             setMessage(res.data.message)
             if (res.data.auth) {
-                console.log("logging in") // handle success here
+                // handle success here
                 setUser(res.data.userObj)
                 setAuthSession(1)
                 sessionStorage.setItem("authTok", 1)

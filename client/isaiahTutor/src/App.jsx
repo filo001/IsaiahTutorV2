@@ -21,7 +21,6 @@ function App() {
           {(authSession && user != undefined) ?  <Home setAuthSession={setAuthSession} /> :<Auth setUser={setUser} setAuthSession={setAuthSession}/>}
         </UserContext.Provider>  
 
-      {/* <button onClick={() => console.log(user)}> test </button> */}
     </>
     
   )

@@ -25,7 +25,6 @@ function AdminStudentAdd ({ setAdding, fetchStudentData, fetchCourses}) {
             if (formData.courses.includes(course.name)) {
                 const new_array = formData.courses
                 .filter(curr => curr != course.name )
-                console.log(new_array)
                 setFormData({...formData, courses: new_array})
             }
             else {
@@ -48,11 +47,9 @@ function AdminStudentAdd ({ setAdding, fetchStudentData, fetchCourses}) {
             setError({success: false, msg: "At least one field is not filled"})
             return
         }
-        console.log(formData)
         await axios.post(`${import.meta.env.VITE_ENDPOINT}/addStudent`, formData)
         .then(res => {
             setError(res.data)
-            console.log(error)
 
         })
         .catch(err => console.log(err))

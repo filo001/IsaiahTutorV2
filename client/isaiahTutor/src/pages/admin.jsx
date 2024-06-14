@@ -14,7 +14,7 @@ function Admin() {
         // Fetch all students array
         await axios.get(`${import.meta.env.VITE_ENDPOINT}/students`)
         .then(res => {
-            console.log("Students Found")
+            console.log("Students loaded")
             setStudents(res.data)
         })
         .catch(err => console.log(err))
@@ -25,7 +25,7 @@ function Admin() {
         .then(
             res => {
                 setCourses(res.data)
-                console.log('Courses initailized')
+                console.log('Courses loaded')
             }
         )
     }
