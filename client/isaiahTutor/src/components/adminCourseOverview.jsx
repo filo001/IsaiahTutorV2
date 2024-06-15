@@ -66,6 +66,7 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
                 <Button variant='danger' onClick={() => setPreview(undefined)}>Close</Button>
             </Modal.Header>
             <Modal.Body>
+                <a href={preview.embed} rel="noopener noreferrer" target="_blank">Click here to open file in a new tab</a>
                 <iframe src={preview.embed} height={800} width='100%'></iframe>
                 <Button variant="danger" onClick={handleDelete}>Delete Lesson</Button>
             </Modal.Body>
