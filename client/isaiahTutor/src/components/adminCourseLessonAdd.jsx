@@ -33,7 +33,7 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
           },
           body: file
       })
-      return res.status.indexOf(0) !== '4' ? {msg: 'File uploaded Successfully', success: 'info'} : {msg: 'AN ERROR OCCURED WITH THE API', success: 'danger'}
+      return String(res.status).indexOf(0) !== '4' ? {msg: 'File uploaded Successfully', success: 'info'} : {msg: 'AN ERROR OCCURED WITH THE API', success: 'danger'}
       }
 
     async function createLink(name, submitData) {
@@ -67,7 +67,10 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
         // Add file to database here
 
         await handleUpload(file).then((error) => setError(error))
-        .catch(() => (setError({msg: 'An error occurred while uploading', success: 'danger'})))
+        .catch((err) => {
+            (setError({msg: 'An error occurred while uploading', success: 'danger'}))
+            console.log(err)
+        })
     
 
         // Get the link to the file here

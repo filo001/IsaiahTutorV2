@@ -7,7 +7,6 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
     const [preview, setPreview] = useState(undefined)
 
     useEffect(() => {
-        console.log(currentCourse)
         fetchLessons()
     }, [])
 
@@ -20,10 +19,7 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
 
     function mapLessons(lessonsResponse) {
         const currentCourseIds = currentCourse.lessons.map(course => course.lessonID).filter(id => id ? id : false)
-        console.log(currentCourseIds)
-        console.log(lessonsResponse)
         const courseLessons = lessonsResponse.filter(lesson => currentCourseIds.includes(lesson.lessonID))
-        console.log(courseLessons)
         setLessons(courseLessons)
     }
 
