@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Button, Modal } from "react-bootstrap"
 import axios from "axios"
+import { StatusContext } from "./context"
 
 function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
     if (!course) {
@@ -11,6 +12,13 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
     const [file, setFile] = useState(undefined)
     const [error, setError] = useState({msg: '', success: 'danger'})
     const [preview, setPreview] = useState('')
+    const dbStatus = useContext(StatusContext)
+
+    useEffect(() => {
+        if (dbStatus.variant === 'danger') {
+            setError({msg: 'Database unable to connect (Cannot handle file uploads)', success: 'danger'})
+        }
+    }, [])
 
     function MapTopics() {
         return (
@@ -120,7 +128,7 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
                         
                     </div>
                 </div>
-                <Button type='submit' >Create Lesson</Button>
+                <Button type='submit' disabled={dbStatus.variant === 'danger'} >Create Lesson</Button>
             </form>
             {Boolean(error.msg.length) ? (<div className={"mt-3 alert alert-" + error.success}>
                 {error.msg}

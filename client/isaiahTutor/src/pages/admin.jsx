@@ -4,7 +4,7 @@ import axios from 'axios'
 import { CourseContext, StudentContext } from '../components/context'
 import { useEffect, useState } from "react"
 
-function Admin() {
+function Admin({refresh}) {
     // Contexts
     const [courses, setCourses] = useState([])
     const [students, setStudents] = useState([])
@@ -37,7 +37,6 @@ function Admin() {
         console.log(`Students Context Provider:`)
         console.log(students)
     }
-
 
     // Initialization 
     useEffect(() => {

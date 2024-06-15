@@ -34,6 +34,13 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
         )
     }
 
+    function handleDelete() {
+        // delete from dropbox
+        // remove from 'lessons' schema
+        // remove from courses -> .lesson schema
+        // remove from students 'homework'
+    }
+
     return (
         <>
         <div className="d-flex justify-content-between mb-3">
@@ -60,6 +67,7 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
             </Modal.Header>
             <Modal.Body>
                 <iframe src={preview.embed} height={800} width='100%'></iframe>
+                <Button variant="danger" onClick={handleDelete}>Delete Lesson</Button>
             </Modal.Body>
         </Modal> : ''}
         </>
