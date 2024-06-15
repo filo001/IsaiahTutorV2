@@ -34,7 +34,7 @@ function Auth ({ setUser, setAuthSession }) {
     }
 
     return (
-        <div className='container-fluid d-flex align-items-center justify-content-center min-vh-100'>
+        <div className='container-fluid d-flex align-items-center justify-content-center min-vh-90'>
             <form action="POST" >
                 <p className='mt-2'>Username</p>
                 <input className='form-control' type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
