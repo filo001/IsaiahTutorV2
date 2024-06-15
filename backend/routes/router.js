@@ -99,11 +99,8 @@ router.post('/createLink', async(req, res) => {
             requested_visibility: 'public'
         }
     }) 
-    if (String(fileData.status).indexOf(0) !== '2') {
-        console.log('not 200 response')
-        return
-    }
     console.log(`File created at ${path}`)
+    console.log(fileData.status)
     const directLink = fileData.result.url.replace('dl=0', 'raw=1')
     res.send(directLink)
 })
