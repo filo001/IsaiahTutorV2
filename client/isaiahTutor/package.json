@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "dropbox": "^10.34.0",
     "javascript-time-ago": "^2.5.10",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",

@@ -1,3 +1,14 @@
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+.custom-isaiah-header {
+    padding: 25px 0px;
+    height: 10%;
+    background-image: linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4);
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    font-size: 22px
 }

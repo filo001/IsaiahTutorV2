@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { UserContext } from './components/context'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
+import { Nav } from 'react-bootstrap'
 
 function App() {
   const [user, setUser] = useState(undefined)
@@ -17,11 +18,10 @@ function App() {
 
   return (
     <>
+    <header className='custom-isaiah-header'>IsaiahTutorV2</header>
       <UserContext.Provider value={user}>
           {(authSession && user != undefined) ?  <Home setAuthSession={setAuthSession} /> :<Auth setUser={setUser} setAuthSession={setAuthSession}/>}
-        </UserContext.Provider>  
-
-      {/* <button onClick={() => console.log(user)}> test </button> */}
+      </UserContext.Provider>  
     </>
     
   )

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { CourseContext, StudentContext } from '../components/context'
 import { useEffect, useState } from "react"
 
-function Admin() {
+function Admin({refresh}) {
     // Contexts
     const [courses, setCourses] = useState([])
     const [students, setStudents] = useState([])
@@ -14,7 +14,7 @@ function Admin() {
         // Fetch all students array
         await axios.get(`${import.meta.env.VITE_ENDPOINT}/students`)
         .then(res => {
-            console.log("Students Found")
+            console.log("Students loaded")
             setStudents(res.data)
         })
         .catch(err => console.log(err))
@@ -25,7 +25,7 @@ function Admin() {
         .then(
             res => {
                 setCourses(res.data)
-                console.log('Courses initailized')
+                console.log('Courses loaded')
             }
         )
     }
@@ -37,7 +37,6 @@ function Admin() {
         console.log(`Students Context Provider:`)
         console.log(students)
     }
-
 
     // Initialization 
     useEffect(() => {

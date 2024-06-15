@@ -29,7 +29,7 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses}) {
     async function handleStudentDelete() {    
         if (deleteForm === deletedUser.name) {
           await axios.post(`${import.meta.env.VITE_ENDPOINT}/deleteStudent`, deletedUser)
-          .then(res => console.log(res))
+          .then(res => console.log('Student Created'))
           .catch(err => console.log(err))  
         }
         setDeleteForm('')

@@ -1,20 +1,16 @@
 import { useContext, useEffect, useState } from "react"
 import { CourseContext } from "./context"
-import { Button } from "react-bootstrap"
+import { Button, Card, Modal } from "react-bootstrap"
 
-function AdminCourseAll ({ setCurrentCourse, fetchCourses }) {
-    const [adding, setAdding] = useState(false)
+function AdminCourseAll ({ setCurrentCourse, fetchCourses, setSelected }) {
+    // const [adding, setAdding] = useState(false) add this later
     const courses = useContext(CourseContext)
-
-    function addLesson(course) {
-        return
-    }
 
     function handleItem(course) {
         return (
             <tr key={course._id}>
                 <td><a href="#" onClick={() => setCurrentCourse(course)}>{course.name}</a></td>
-                <td><Button variant="secondary" onClick={() => addLesson(course)}>Add Lesson</Button></td>
+                <td><Button variant="secondary" onClick={() => setSelected(course)}>Add Lesson</Button></td>
             </tr>
         )
     }
@@ -35,7 +31,7 @@ function AdminCourseAll ({ setCurrentCourse, fetchCourses }) {
                 })}
                 </tbody>                
             </table>
-            <Button onClick={() => setAdding(true)}>Add New Course +</Button>
+            {/* <Button onClick={() => setAdding(true)}>Add New Course +</Button> Addthis feature later */}
         </>
     )
 }
