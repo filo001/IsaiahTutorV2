@@ -126,7 +126,7 @@ router.get('/checkStatus', async(req, res) => {
             include_deleted: false,
             include_has_explicit_shared_members: false
         })
-        res.send({msg: `App is online, last updated at ${(new Date).toLocaleTimeString()}`, variant: 'success'})
+        res.send({msg: `App is online, last updated at ${(new Date).toLocaleTimeString('en-AU')}`, variant: 'success'})
     }
     catch (error) {
         res.send({msg: `Dropbox API is offline (file uploads not possible now) but backend is working, last updated at ${(new Date).toLocaleTimeString()}`, variant: 'danger'})
