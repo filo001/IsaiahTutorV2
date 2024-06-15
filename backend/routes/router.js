@@ -92,19 +92,14 @@ router.get('/lessons', async(req, res) => {
 
 router.post('/createLink', async(req, res) => {
     const path = Object.keys(req.body)[0]
-    try {
-        const fileData = await dbx.sharingCreateSharedLinkWithSettings({
-            path: path,
-            settings: {
-                requested_visibility: 'public'
-            }
-        }) 
-    }
 
-    catch {
-        console.log("ERROR WITH API")
-        return
-    }    
+    const fileData = await dbx.sharingCreateSharedLinkWithSettings({
+        path: path,
+        settings: {
+            requested_visibility: 'public'
+        }
+    }) 
+    console.log(fileData)
     console.log(`File created at ${path}`)
     const directLink = fileData.result.url.replace('dl=0', 'raw=1')
     res.send(directLink)
