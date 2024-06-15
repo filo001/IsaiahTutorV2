@@ -19,8 +19,7 @@ function App() {
     <>
       <UserContext.Provider value={user}>
           {(authSession && user != undefined) ?  <Home setAuthSession={setAuthSession} /> :<Auth setUser={setUser} setAuthSession={setAuthSession}/>}
-        </UserContext.Provider>  
-
+      </UserContext.Provider>  
     </>
     
   )
