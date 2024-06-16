@@ -5,12 +5,29 @@ import Button from 'react-bootstrap/Button'
 function Auth ({ setUser, setAuthSession }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState({msg: '', variant: ''})
+    const [loading, setLoading] = useState(false)
 
     function handleSubmit(e) {
         e.preventDefault()
+        setLoading(true)
         handleAuth()
     }
+
+    function handleSuccess(response) {
+        setUser(response.userObj)
+        setAuthSession(1)
+        sessionStorage.setItem("authTok", 1)
+        // Setting session token and validating user
+
+        // TODO: SET CURRENT SESSION TO CURRENT USER
+    }
+
+    function handleConnectionFail(error) {
+        setLoading(false)
+        console.log(error)
+        setMessage({msg: 'Server Connection is currently down', variant: 'danger'})
+    } 
 
     const handleAuth = async() => {
         const data = {
@@ -19,22 +36,21 @@ function Auth ({ setUser, setAuthSession }) {
         }
         await axios.post(`${import.meta.env.VITE_ENDPOINT}/auth`, data)
         .then(res => {
-            setMessage(res.data.message)
+            setLoading(false)
             if (res.data.auth) {
-                // handle success here
-                setUser(res.data.userObj)
-                setAuthSession(1)
-                sessionStorage.setItem("authTok", 1)
-                // Setting session token and validating user
-
-                // TODO: SET CURRENT SESSION TO CURRENT USER
+                // User + Pass combination is valid
+                handleSuccess(res.data)
+            }
+            else {
+                // User + Pass combination is invalid
+                setMessage({msg: res.data.message, variant: 'danger'})
             }
         })
-        .catch(err => console.log(err))
+        .catch(error => handleConnectionFail(error)) // Database cant connect
     }
 
     return (
-        <div className='container-fluid d-flex align-items-center justify-content-center min-vh-90'>
+        <div className='container-fluid d-flex flex-column align-items-center justify-content-center min-vh-90'>
             <form action="POST" >
                 <p className='mt-2'>Username</p>
                 <input className='form-control' type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
@@ -43,8 +59,9 @@ function Auth ({ setUser, setAuthSession }) {
                 <div>
                     <Button type='submit' onClick={handleSubmit} className='w-100 p-1 mt-4'>Login</Button>
                 </div>
-                <p>{message}</p>
             </form>
+            {loading && <div className='mt-3 spinner-border text-primary' role='status'></div>}
+                <div className={'mt-3 alert alert-' + message.variant}>{message.msg}</div>
         </div>
     )
 }

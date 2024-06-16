@@ -15,12 +15,16 @@ function App() {
     setAuthSession(sessionStorage.getItem("authTok"))
   }, [])
 
+  function isUserValid() {
+    return (authSession && user != undefined) 
+  }
+
 
   return (
     <>
     <header className='custom-isaiah-header'>IsaiahTutorV2</header>
       <UserContext.Provider value={user}>
-          {(authSession && user != undefined) ?  <Home setAuthSession={setAuthSession} /> :<Auth setUser={setUser} setAuthSession={setAuthSession}/>}
+          {isUserValid() ?  <Home setAuthSession={setAuthSession} /> :<Auth setUser={setUser} setAuthSession={setAuthSession}/>}
       </UserContext.Provider>  
     </>
     
