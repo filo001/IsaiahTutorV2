@@ -3,6 +3,9 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const router = require('./routes/router')
+    // google drive
+    // const fileUpload = require('express-fileupload')
+    // const cookieParser = require('cookie-parser')
 
 // database 
 const mongoose = require('mongoose')
@@ -20,7 +23,10 @@ const corsOptions = {
     optionSuccessStatus: 200
 }
 app.use(cors(corsOptions))
+    // app.use(fileUpload())  GOOGLE DRIVE
+    // app.use(cookieParser())
 app.use('/', router)
+
 
 // database connection
 dbOptions = {useNewUrlParser:true, useUnifiedTopology:true}

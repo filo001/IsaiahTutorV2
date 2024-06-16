@@ -1,10 +1,14 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Button, Modal } from "react-bootstrap"
+import { StatusContext } from "./context"
+import AdminCourseLessonTable from "./adminCourseLessonTable"
+import AdminCourseLessonPreview from "./adminCourseLessonPreview"
 
 function AdminCourseOverview({currentCourse, setCurrentCourse}) {
     const [lessons, setLessons] = useState([])
     const [preview, setPreview] = useState(undefined)
+    const status = useContext(StatusContext)
 
     useEffect(() => {
         fetchLessons()
@@ -23,7 +27,7 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
         setLessons(courseLessons)
     }
 
-    function DisplayLessons(lesson) {
+    function displayLessons(lesson) {
         return(
             <tr key={lesson.lessonID}>
                 <td><a onClick={() => setPreview(lesson)} href="#">{lesson.name}</a></td>
@@ -34,8 +38,21 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
         )
     }
 
+    function deleteFile(file) {
+        // Delete from dropbox here
+    }
+
+    function validConnection() {
+        return status.variant === 'success'
+    }
+
     function handleDelete() {
+        // check status
+        if (!validConnection()) {
+            return
+        }
         // delete from dropbox
+        deleteFile(preview)
         // remove from 'lessons' schema
         // remove from courses -> .lesson schema
         // remove from students 'homework'
@@ -43,34 +60,8 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
 
     return (
         <>
-        <div className="d-flex justify-content-between mb-3">
-            <span>Showing Overview for <span style={{fontWeight:700}}>{currentCourse.name}</span></span>
-            <Button className="rounded btn-danger btn-sm" onClick={() => setCurrentCourse(undefined)}>Close</Button>  
-        </div>
-        <table className="table table-hover">
-            <thead className="thead-dark">
-                <tr>
-                    <th>Lesson Name</th>
-                    <th>Topic</th>
-                    <th>Date Created</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {lessons.map(lesson => DisplayLessons(lesson))}
-            </tbody>
-        </table>
-        {preview ?<Modal className='modal-fullscreen modal-xl' show={Boolean(preview)}>
-            <Modal.Header className="d-flex justify-content-between">
-                <h3>{preview.name}</h3>
-                <Button variant='danger' onClick={() => setPreview(undefined)}>Close</Button>
-            </Modal.Header>
-            <Modal.Body>
-                <a href={preview.embed} rel="noopener noreferrer" target="_blank">Click here to open file in a new tab</a>
-                <iframe src={preview.embed} height={800} width='100%'></iframe>
-                <Button variant="danger" onClick={handleDelete}>Delete Lesson</Button>
-            </Modal.Body>
-        </Modal> : ''}
+        <AdminCourseLessonTable setCurrentCourse={setCurrentCourse} lessons={lessons} displayLessons={displayLessons} currentCourse={currentCourse}/>
+        {preview ? <AdminCourseLessonPreview preview={preview} setPreview={setPreview} validConnection={validConnection} handleDelete={handleDelete}/> : ''}
         </>
     )
 }

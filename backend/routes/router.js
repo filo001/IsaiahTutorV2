@@ -1,6 +1,97 @@
 const express = require('express')
 const router = express.Router()
 const schemas = require('../models/schemas')
+
+                // // Google drive API TEST
+
+                // const { google } = require('googleapis')
+                // const fs = require('fs')
+                // const path = require('path')
+
+                //     // all env vars
+
+                // const oauth2Client = new google.auth.OAuth2(
+                //     CLIENT_ID,
+                //     CLIENT_SECRET,
+                //     REDIRECT_URI
+                //   )
+
+                // const drive = google.drive({ version: 'v3', auth: oauth2Client })
+
+                // router.get('/googleAuth', async (req, res) => {
+                //     const authUrl = oauth2Client.generateAuthUrl({
+                //         access_type: 'offline',
+                //         scope: ['https://www.'],
+                //       })
+                //       res.redirect(authUrl)
+                // })
+
+                // router.get('/oauth2callback', async (req, res) => {
+                //     const code = req.query.code;
+                //     const { tokens } = await oauth2Client.getToken(code);
+                //     oauth2Client.setCredentials(tokens)
+                
+                //     // Store tokens in cookies
+                //     res.cookie('access_token', tokens.access_token, { httpOnly: true })
+                //     res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true })
+                //     console.log('Authenticated Google Services')
+                //     res.redirect('http:///') // redirect to home page
+                //   })
+
+
+                // router.post('/upload', async(req, res) => {
+                //     console.log(req.files)
+                //     const file = req.files.file
+                //     const filePath = path.join(__dirname, file.name)
+                //     console.log('uploading...')
+                //     console.log(req.files.file)
+
+                //     await file.mv(filePath)
+                //     const accessToken = req.cookies.access_token
+                //     const refreshToken = req.cookies.refresh_token
+                //     oauth2Client.setCredentials({ access_token: accessToken, refresh_token: refreshToken })
+                //     console.log('credentials set')
+                //     const response = await drive.files.create({
+                //         requestBody: {
+                //           name: file.name, // Change file name here
+                //           mimeType: file.mimetype,
+                //           parents: ['']
+                //         },
+                //         media: {
+                //           mimeType: file.mimetype,
+                //           body: fs.createReadStream(filePath),
+                //         },
+                //       });
+                    
+                //       console.log('file created')
+
+                //       // Generate a public URL for the file
+                //       await drive.permissions.create({
+                //         fileId: response.data.id,
+                //         requestBody: {
+                //           role: 'reader',
+                //           type: 'anyone',
+                //         },
+                //       });
+                    
+                //       console.log('link created')
+
+                //       const result = await drive.files.get({
+                //         fileId: response.data.id,
+                //         fields: 'webViewLink, webContentLink, id',
+                //       });
+                    
+                //       console.log('link fetched')
+
+                //       // Delete the file from the server
+                //       fs.unlinkSync(filePath);
+
+                //       console.log(result.data.webContentLink)
+                //       console.log(result.data.webViewLink.replace('view?usp=drivesdk', 'preview'))
+                //       console.log(result.data.id)
+                // })
+
+
 // Dropbox initialization
 require('dotenv/config')
 const fetch = require('node-fetch')
@@ -11,9 +102,6 @@ const dbx = new Dropbox({ accessToken: process.env.DBX_TOKEN, fetch: fetch})
 
 // add post and get requests here
 
-router.get('/test2', async (req, res) => {
-    res.send(String(process.env.DBX_TOKEN))
-})
 
 
 router.get('/', async (req, res) => {
@@ -26,19 +114,19 @@ router.post('/auth', async (req, res) => {
     const users = schemas.Users
     const userData = await users.find({ name: user }).exec()
     if (userData[0] === undefined) {
-        result.message = "ERROR, USER NOT FOUND"
+        result.message = "User does not exist"
         res.send(result)
         return
     }
     // There is a valid entry  
     if (userData[0].pass != pass) {
-        result.message = "ERROR, PASSWORD INVALID"
+        result.message = "Invalid user and password combination"
         res.send(result)
         return
     }
     // There is a valid entry and the password is the correct one
     users.findOneAndUpdate({name: user}, {lastLoggedIn: Date.now()}, null).exec()
-    result.message = JSON.stringify(String(userData))
+    result.message = JSON.stringify('User found')
     result.userObj = userData[0]
     result.auth = true
     res.send(result)
@@ -129,7 +217,7 @@ router.get('/checkStatus', async(req, res) => {
         res.send({msg: `App is online, last updated at ${(new Date).toLocaleTimeString('en-AU', {timeZone: "Australia/Melbourne"})}`, variant: 'success'})
     }
     catch (error) {
-        res.send({msg: `Dropbox API is offline (file uploads not possible now) but backend is working, last updated at ${(new Date).toLocaleTimeString('en-AU', {timeZone: "Australia/Melbourne"})}`, variant: 'danger'})
+        res.send({msg: `Dropbox API is offline (file uploads not possible now), last updated at ${(new Date).toLocaleTimeString('en-AU', {timeZone: "Australia/Melbourne"})}`, variant: 'danger'})
         console.log(error)
     }
 
