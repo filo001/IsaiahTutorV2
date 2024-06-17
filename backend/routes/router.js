@@ -174,7 +174,6 @@ router.post('/deleteStudent', async(req, res) => {
 router.get('/lessons', async(req, res) => {
     const lessons = schemas.Lessons
     const lessonsData = await lessons.find({}).exec()
-    console.log('Lessons fetched')
     res.send(lessonsData)
 })
 
@@ -208,20 +207,73 @@ router.post('/addLesson', async(req, res) => {
 })
 
 router.get('/checkStatus', async(req, res) => {
+    const time = (new Date).toLocaleTimeString('en-AU', {timeZone: "Australia/Melbourne"})
     try {
         await dbx.filesGetMetadata({path: '/test.txt',
             include_media_info: false,
             include_deleted: false,
             include_has_explicit_shared_members: false
         })
-        res.send({msg: `App is online, last updated at ${(new Date).toLocaleTimeString('en-AU', {timeZone: "Australia/Melbourne"})}`, variant: 'success'})
+        res.send({msg: `App is online, last updated at ${time}`, variant: 'success'})
+        console.log('Dropbox Service working')
     }
     catch (error) {
-        res.send({msg: `Dropbox API is offline (file uploads not possible now), last updated at ${(new Date).toLocaleTimeString('en-AU', {timeZone: "Australia/Melbourne"})}`, variant: 'danger'})
-        console.log(error)
+        res.send({msg: `Dropbox API is offline (file uploads not possible now), last updated at ${time}`, variant: 'danger'})
+        console.log(`Services Down, need to update API key, last updated ${time}`)
+        console.log(error.error.error_summary)
     }
 
     
+})
+
+router.post('/deleteFile', async(req, res) => {
+    const path = req.body.path
+    console.log(path)
+    try {
+        await dbx.filesDeleteV2({
+            path: path
+        })
+        console.log(`File deleted at ${path}`)
+        res.send('Successful deletion')
+    }
+    
+    catch {
+        console.log('Error occured when deleting ' + path)
+        res.send('Unsuccessful deletion')
+    }
+    
+})
+
+router.post('/deleteLesson', async(req, res) => {
+    const CURRENTid = req.body.lessonID
+    const lessonsSchema = schemas.Lessons
+    const usersSchema = schemas.Users
+    const coursesSchema = schemas.Courses
+
+    // delete from lessons schema
+    await lessonsSchema.deleteOne({lessonID: CURRENTid}).exec()    
+    console.log(`Deleted ${req.body.name} from lesson schema`)
+
+    // delete from courses
+    const coursesData = await coursesSchema.find({})
+    const courseWithLesson = coursesData.filter(courseObject => (courseObject.lessons.filter(lesson => lesson.lessonID === CURRENTid)).length)[0]
+    const currentLessons = courseWithLesson.lessons
+    await coursesSchema.findOneAndUpdate({name: courseWithLesson.name}, {lessons: currentLessons.filter(lesson => lesson.lessonID != CURRENTid)}).exec()
+    console.log(`Deleted ${req.body.name} from lessons in ${courseWithLesson.name}`)
+
+    // delete from students homework schema
+    // FOR NOW DO MANUALLY
+
+})
+
+router.post('/assignHomework', async(req, res) => {
+    const usersSchema = schemas.Users
+    const newHomework = req.body[0] 
+    const studentName = req.body[1] 
+    const previousLessons = req.body[2] 
+    await usersSchema.findOneAndUpdate({name: studentName}, {homework: [...previousLessons, newHomework]}, null).exec()
+    .then(() => console.log(`Assigned ${newHomework.name} to ${studentName}`))
+    res.send({msg: ('Successfully assignned Homework to ' + req.body[1]), variant: 'success'})
 })
 
 module.exports = router

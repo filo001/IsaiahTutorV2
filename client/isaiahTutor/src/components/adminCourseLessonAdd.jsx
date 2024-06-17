@@ -15,10 +15,19 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
     const dbStatus = useContext(StatusContext)
 
     useEffect(() => {
-        if (dbStatus.variant === 'danger') {
+        if (dbStatusOffline()) {
             setError({msg: 'Database unable to connect (Cannot handle file uploads)', success: 'danger'})
         }
+        return (
+            () => {
+                fetchCourses()
+            }
+        )
     }, [])
+    
+    function dbStatusOffline () {
+        return dbStatus.variant === 'danger'
+    }
 
     function MapTopics() {
         return (
@@ -54,6 +63,9 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
 
     async function handleSubmit(e) {
         e.preventDefault()
+        if (dbStatusOffline()) {
+            return
+        }
         // Validate form
         const submitData = formData
         setError({msg: 'File upload in progress', success: 'info'})
@@ -123,12 +135,12 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
                         </div>
                         <div className="">
                             <label className="form-label">Lesson File (PDF)</label>
-                            <input type="file" className="form-control" onChange={e => setFile(e.target.files[0])} />
+                            <input type="file" className="form-control" onChange={e => {setFile(e.target.files[0]); formData.name ? '' : setFormData({...formData, name: e.target.files[0].name.replace('.pdf', '')})}} />
                         </div>
                         
                     </div>
                 </div>
-                <Button type='submit' disabled={dbStatus.variant === 'danger'} >Create Lesson</Button>
+                <Button type='submit' disabled={dbStatusOffline()} >Create Lesson</Button>
             </form>
             {Boolean(error.msg.length) ? (<div className={"mt-3 alert alert-" + error.success}>
                 {error.msg}
