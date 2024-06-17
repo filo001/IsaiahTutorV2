@@ -9,32 +9,19 @@ import axios from "axios"
 
 TimeAgo.addDefaultLocale(en)
 
-function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses}) {
+function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses, setAssignedStudent}) {
     const timeAgo = new TimeAgo('en-AU')
     const students = useContext(StudentContext)
     const [adding, setAdding] = useState(false)
-    const [deletedUser, setDeletedUser] = useState(undefined)
-    const [deleteForm, setDeleteForm] = useState('')
 
     function handleStudentItem(student) {
         return(
             <tr key={student._id} className="user-select-none">
                 <td><a href="#" onClick={() => handleClick(student)}>{student.name}</a></td>
                 <td>{timeAgo.format(new Date(student.lastLoggedIn))}</td>
-                <td><Button variant="danger" onClick={() => setDeletedUser(student)}>Delete Student</Button></td>
+                <td><Button variant="success" onClick={() => setAssignedStudent(student)}>Assign Homework</Button></td>
             </tr>
         )
-    }
-
-    async function handleStudentDelete() {    
-        if (deleteForm === deletedUser.name) {
-          await axios.post(`${import.meta.env.VITE_ENDPOINT}/deleteStudent`, deletedUser)
-          .then(res => console.log('Student Created'))
-          .catch(err => console.log(err))  
-        }
-        setDeleteForm('')
-        setDeletedUser(undefined)
-        fetchStudentData()
     }
 
     function handleClick(student) {
@@ -61,21 +48,6 @@ function AdminStudentAll({setCurrentStudent, fetchStudentData, fetchCourses}) {
             <Button onClick={() => setAdding(true)}>Add New Student +</Button>
             <Modal show={adding}>
                 <AdminStudentAdd fetchStudentData={fetchStudentData} setAdding={setAdding} fetchCourses={fetchCourses} />
-            </Modal>
-            <Modal show={deletedUser === undefined ? false : true}>
-                <Modal.Header>
-                    <Modal.Title className="user-select-none">
-                        Are you sure you want to delete this user?
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="d-grid gap-2">
-                    This Student will be permanently deleted, 
-                    to confirm this, type '{deletedUser == undefined ? '' : deletedUser.name}'
-                    <input onChange={e => setDeleteForm(e.target.value)} value={deleteForm} type="text" className="form-control"/>
-                    <Button onClick={handleStudentDelete} className="btn-danger" disabled={(deletedUser) && !(deleteForm === deletedUser.name)}>Confirm Delete</Button>
-                    <Button onClick={() => setDeletedUser(undefined)}>Cancel</Button>
-                </Modal.Body>
-                
             </Modal>
         </>  
     )

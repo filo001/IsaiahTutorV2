@@ -33,35 +33,51 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
                 <td><a onClick={() => setPreview(lesson)} href="#">{lesson.name}</a></td>
                 <td>{lesson.topic[0]}</td>
                 <td>{(new Date(lesson.date)).toDateString()}</td>
-                <td><Button>Analytics</Button></td>
+                <td><Button disabled>Analytics</Button></td>
             </tr>
         )
     }
 
-    function deleteFile(file) {
+    async function deleteFile(file) {
         // Delete from dropbox here
+        const filePath = {path: `/${currentCourse.name}/${file.name}.pdf`}
+        console.log(filePath)
+        await axios.post(`${import.meta.env.VITE_ENDPOINT}/deleteFile`, filePath)
+    }
+
+    async function removeLesson(lesson) {
+        // Get lesson id - > send post request to remove from lessons schema, courses schema and homeork schema
+        await axios.post(`${import.meta.env.VITE_ENDPOINT}/deleteLesson`, lesson)
     }
 
     function validConnection() {
         return status.variant === 'success'
     }
 
-    function handleDelete() {
+    async function handleDelete() {
         // check status
         if (!validConnection()) {
             return
         }
         // delete from dropbox
-        deleteFile(preview)
+        await deleteFile(preview).then(() => {
+            removeLesson(preview)
+            setCurrentCourse(undefined)
+        }).
+        then(async () => {
+            await fetchLessons().then(() => setCurrentCourse(currentCourse))
+        })
         // remove from 'lessons' schema
+        
         // remove from courses -> .lesson schema
         // remove from students 'homework'
+        
     }
 
     return (
         <>
         <AdminCourseLessonTable setCurrentCourse={setCurrentCourse} lessons={lessons} displayLessons={displayLessons} currentCourse={currentCourse}/>
-        {preview ? <AdminCourseLessonPreview preview={preview} setPreview={setPreview} validConnection={validConnection} handleDelete={handleDelete}/> : ''}
+        {preview ? <AdminCourseLessonPreview preview={preview} setPreview={setPreview} validConnection={validConnection} handleDelete={async() => await handleDelete()}/> : ''}
         </>
     )
 }

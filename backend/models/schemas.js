@@ -5,8 +5,8 @@ const userSchema = new Schema({
     name: {type:String},
     pass: {type:String},
     admin: {type: Boolean, default: false},
-    courses: {type:Array, default: []},
-    homework: {type:Array, default: []}, // [{lesson: lesson_id, feedback: feedback, score: score default is 0}]
+    courses: {type:Array, default: [null]},
+    homework: {type:Array, default: [null]}, // [{lesson: lesson_id, feedback: feedback, score: score default is 0, feedbackViewed: boolean, marked: boolean}]
     lastLoggedIn: {type: Date, default: Date.now}
 })
 
