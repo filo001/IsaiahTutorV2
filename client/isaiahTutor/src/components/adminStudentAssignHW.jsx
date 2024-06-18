@@ -39,7 +39,7 @@ function AdminStudentAssignHW ({assignedStudent, setAssignedStudent, fetchStuden
             setError({msg: 'Student already has this lesson', variant: 'danger'})
             return
         } 
-        const payLoad = {...homework, name: currentLesson.name, lessonID: currentLesson.lessonID, course:course}
+        const payLoad = {...homework, name: currentLesson.name, lessonID: currentLesson.lessonID, course:course, submissionEmbed: '', feedbackEmbed: ''}
         await axios.post(`${import.meta.env.VITE_ENDPOINT}/assignHomework`, [payLoad, assignedStudent.name, assignedStudent.homework]).then(
             res => setError(res.data)
         ).catch(err => {
@@ -72,6 +72,9 @@ function AdminStudentAssignHW ({assignedStudent, setAssignedStudent, fetchStuden
             <select className="form-select" value={lesson} onChange={(e) => setLesson(e.target.value)}>
                 <option value='' >(Lesson)</option>
                 {lessonList.map(lesson => {
+                    if (validateLesson(lesson.lessonID)) {
+                        return
+                    }
                     return (
                         <option key={lesson.lessonID + 'hw'} value={lesson.lessonID}>{lesson.name}</option>
                     )

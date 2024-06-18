@@ -215,7 +215,7 @@ router.get('/checkStatus', async(req, res) => {
             include_has_explicit_shared_members: false
         })
         res.send({msg: `App is online, last updated at ${time}`, variant: 'success'})
-        console.log('Dropbox Service working')
+        console.log(`Dropbox Service working; last updated at ${time}`)
     }
     catch (error) {
         res.send({msg: `Dropbox API is offline (file uploads not possible now), last updated at ${time}`, variant: 'danger'})
