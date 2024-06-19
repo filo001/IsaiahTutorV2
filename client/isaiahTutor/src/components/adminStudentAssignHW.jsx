@@ -8,7 +8,7 @@ function AdminStudentAssignHW ({assignedStudent, setAssignedStudent, fetchStuden
     const [lesson, setLesson] = useState(undefined)
     const [lessonList, setLessonList] = useState([])
     const courses = useContext(CourseContext)
-    const [homework, setHomework] = useState({name: '', lessonID: lesson, feedback: '', score: -1, maxScore: 0, feedbackViewed: false, marked: false, studentSubmission: false, course: ''})
+    const [homework, setHomework] = useState({name: '', lessonID: lesson, feedback: '', score: -1, maxScore: 1, feedbackViewed: false, marked: false, studentSubmission: false, course: ''})
     const [error, setError] = useState({msg: '', variant: ''})
 
     useEffect(() =>{
@@ -29,7 +29,6 @@ function AdminStudentAssignHW ({assignedStudent, setAssignedStudent, fetchStuden
     function validateLesson(lessonID) {
         // return whether the current lessonid is inside the current homework lesson id's
         const currentHomeworkIDs = assignedStudent.homework.map(currentHW => (currentHW !== null) ? currentHW.lessonID : undefined)
-        console.log(currentHomeworkIDs)
         return currentHomeworkIDs.includes(lessonID)
     }
 
@@ -84,7 +83,7 @@ function AdminStudentAssignHW ({assignedStudent, setAssignedStudent, fetchStuden
             {Boolean(lesson) &&
             <div className="form-group d-flex mt-2 flex-column">
             <label className="form-label">Input Max Score for this lesson: {homework.maxScore}</label>
-            <input onChange={e => setHomework({...homework, maxScore: e.target.value})} value={homework.maxScore} type="range" className="form-control-range" min='0' max='15' step='1' />
+            <input onChange={e => setHomework({...homework, maxScore: e.target.value})} value={homework.maxScore} type="range" className="form-control-range" min='1' max='15' step='1' />
             <Button onClick={assignLesson} variant="success mt-3" disabled={error.variant === 'success'}>Assign Lesson</Button>
             </div>}
             <div className={"mt-3 alert alert-" + error.variant}>{error.msg}</div>

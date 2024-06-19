@@ -41,7 +41,6 @@ function AdminCourseOverview({currentCourse, setCurrentCourse}) {
     async function deleteFile(file) {
         // Delete from dropbox here
         const filePath = {path: `/${currentCourse.name}/${file.name}.pdf`}
-        console.log(filePath)
         await axios.post(`${import.meta.env.VITE_ENDPOINT}/deleteFile`, filePath)
     }
 

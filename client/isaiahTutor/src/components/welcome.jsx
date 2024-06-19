@@ -6,7 +6,7 @@ function Welcome() {
 
     return (
         <div>
-            <h1 className="user-select-none">Welcome {user.name}!</h1>
+            <h1 className="user-select-none text-capitalize">Welcome {user.name}!</h1>
         </div>
     )
 }

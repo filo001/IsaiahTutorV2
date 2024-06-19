@@ -4,12 +4,15 @@ import axios from "axios"
 import AdminStudentAssignedHomeworkPreview from "./adminStudentAssignedHomeworkPreview"
 import AdminStudentSubmissionPreview from "./adminStudentSubmissionPreview"
 
-function AdminStudentAssignedHomework({lessonMap, currentStudent}) {
+function AdminStudentAssignedHomework({setLessonMap, lessonMap, currentStudent}) {
     const [isPreviewing, setIsPreviewing] = useState(false)
     const [preview, setPreview] = useState(undefined)
     const [homeworkPreview, setHomeworkPreview] = useState(undefined)
 
     function mapHomework(lesson) {
+        if (!(lesson.lessonObject)) {
+            return
+        }
         if (lesson.homeworkObject.marked) {
             return
         }
@@ -42,7 +45,7 @@ function AdminStudentAssignedHomework({lessonMap, currentStudent}) {
                 </tbody>
             </table>
             {preview ? <AdminStudentAssignedHomeworkPreview preview={preview} setIsPreviewing={setIsPreviewing} isPreviewing={isPreviewing}/> : ''}
-            {homeworkPreview ? <AdminStudentSubmissionPreview currentStudent={currentStudent} homeworkPreview={homeworkPreview} setHomeworkPreview={setHomeworkPreview} /> : ''}
+            {homeworkPreview ? <AdminStudentSubmissionPreview lessonMap={lessonMap} setLessonMap={setLessonMap} currentStudent={currentStudent} homeworkPreview={homeworkPreview} setHomeworkPreview={setHomeworkPreview} /> : ''}
         </div>
     )
 }

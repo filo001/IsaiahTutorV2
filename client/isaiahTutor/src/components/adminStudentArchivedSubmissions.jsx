@@ -17,7 +17,7 @@ function AdminStudentArchivedSubmissions({lessonMap, currentStudent}) {
         return (
             <tr key={lesson._id}>
                 <td><a onClick={() => setHomeworkPreview(homework)} href="#">{lesson.name}</a></td>
-                <td>{score}</td>
+                <td>{homework.score}/{homework.maxScore}</td>
                 <td>
                     {homework.feedbackViewed ? 
                     <Button disabled variant="info">Viewed</Button> :
@@ -31,7 +31,7 @@ function AdminStudentArchivedSubmissions({lessonMap, currentStudent}) {
         if (score < 0) {
             return 'Unmarked'
         }
-        const calc = ((score / maxScore).toFixed(1)) * 100
+        const calc = Math.round((score / maxScore) * 100)
         return `${calc}%`
     }
 
