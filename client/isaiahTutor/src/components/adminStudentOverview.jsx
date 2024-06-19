@@ -36,7 +36,6 @@ function AdminStudentOverview({currentStudent, setCurrentStudent, fetchStudentDa
             map.push({homeworkObject: homework, lessonObject: match[0]})
         })
         setLessonMap(map)
-        console.log(map)
     }
 
 
@@ -51,7 +50,7 @@ function AdminStudentOverview({currentStudent, setCurrentStudent, fetchStudentDa
             <Button className="rounded btn-danger btn-sm" onClick={handleClose}>Close</Button>  
         </div>
         <AdminStudentCourseOverview currentStudent={currentStudent} />
-        <AdminStudentAssignedHomework currentStudent={currentStudent} lessonMap={lessonMap} />
+        <AdminStudentAssignedHomework currentStudent={currentStudent} lessonMap={lessonMap} setLessonMap={setLessonMap}/>
         <AdminStudentArchivedSubmissions lessonMap={lessonMap} currentStudent={currentStudent}/>
         <Button variant="danger mt-3" onClick={() => setDeletedUser(currentStudent)}>Delete Student</Button>
         <AdminStudentDeleteModal deletedUser={deletedUser} setDeletedUser={setDeletedUser} deleteForm={deleteForm} setDeleteForm={setDeleteForm} setCurrentStudent={setCurrentStudent} fetchStudentData={fetchStudentData} />

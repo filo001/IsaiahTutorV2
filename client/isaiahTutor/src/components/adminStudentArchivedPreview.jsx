@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap"
 function AdminStudentArchivedPreview ({homeworkPreview, setHomeworkPreview, currentStudent}) {
     
     function studentScore() {
-        return ((homeworkPreview.score / homeworkPreview.maxScore).toFixed(1)) * 100
+        return Math.round((homeworkPreview.score / homeworkPreview.maxScore) * 100)
     }
 
     function colorBar() {
@@ -20,7 +20,7 @@ function AdminStudentArchivedPreview ({homeworkPreview, setHomeworkPreview, curr
     return (
         <Modal className='modal-fullscreen modal-xl user-select-none' show={Boolean(homeworkPreview)}>
             <Modal.Header className="d-flex justify-content-between">
-                <h3>{currentStudent.name}'s submission for {homeworkPreview.name}</h3>
+                <h3>{currentStudent.name}'s feedback for {homeworkPreview.name}</h3>
                 <Button variant='danger' onClick={() => setHomeworkPreview(undefined)}>Close</Button>
             </Modal.Header>
             <Modal.Body>

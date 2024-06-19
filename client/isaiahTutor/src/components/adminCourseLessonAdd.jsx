@@ -121,7 +121,7 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
                         <input className='form-control' type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}/>
                         <label className="form-label">Additional Options</label>
                         <div className="form-check form-switch d-flex align-items-center gap-2">
-                            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={formData.homework} onChange={() => setFormData({...formData, homework: !formData.homework})}/>
+                            <input className="form-check-input" disabled type="checkbox" id="flexSwitchCheckDefault" value={formData.homework} onChange={() => setFormData({...formData, homework: !formData.homework})}/>
                             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Assign as Homework for all</label>
                         </div>                        
                     </div>

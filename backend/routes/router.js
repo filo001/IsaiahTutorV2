@@ -262,7 +262,19 @@ router.post('/deleteLesson', async(req, res) => {
     console.log(`Deleted ${req.body.name} from lessons in ${courseWithLesson.name}`)
 
     // delete from students homework schema
-    // FOR NOW DO MANUALLY
+    // For each student
+    const usersArray = await usersSchema.find({})
+    usersArray.forEach(async(student) => {
+        //  Filter homework array so the homework object with the current lesson id is not included
+        const newHomeworkArray = student.homework.filter(homework => Boolean(homework) ? homework.lessonID != CURRENTid : false)
+        if (newHomeworkArray == student.homework) {
+            return
+        }
+        //  Set that users homework array to the new filtered one
+        await usersSchema.findOneAndUpdate({name: student.name}, {homework: newHomeworkArray}).exec()
+        console.log(`Deleted ${req.body.name} from ${student.name}`)
+    })
+  
 
 })
 
@@ -274,6 +286,13 @@ router.post('/assignHomework', async(req, res) => {
     await usersSchema.findOneAndUpdate({name: studentName}, {homework: [...previousLessons, newHomework]}, null).exec()
     .then(() => console.log(`Assigned ${newHomework.name} to ${studentName}`))
     res.send({msg: ('Successfully assignned Homework to ' + req.body[1]), variant: 'success'})
+})
+
+router.post('/fetchStudent', async(req,res) => {
+    const usersSchema = schemas.Users
+    const userName = req.body.user
+    const user = await usersSchema.find({name: userName}).exec()
+    res.send(user[0])
 })
 
 module.exports = router
