@@ -26,7 +26,6 @@ function Home({setAuthSession}) {
     async function handleRefresh() {
         setRefresh(!refresh)
         await checkStatus().then(() => setRefresh(false)).catch((err) => {
-            console.log(err)
             window.location.reload()
     })
     }
@@ -36,7 +35,7 @@ function Home({setAuthSession}) {
         <div className="container-fluid w-100 d-flex flex-column p-3 align-items-center min-vh-100 gap-5">
             <Welcome />
             <StatusContext.Provider value={status} >
-            {!refresh && user.admin ? <Admin /> : <Student/>}
+            {!refresh ? (user.admin ? <Admin /> : <Student/>) : ''}
             <div className={"alert alert-" + status.variant }>{status.msg}</div>
             </ StatusContext.Provider >
             <div className="d-flex flex-column gap-3" >

@@ -50,11 +50,11 @@ function Auth ({ setUser, setAuthSession }) {
     }
 
     return (
-        <div className='container-fluid d-flex flex-column align-items-center justify-content-center min-vh-90'>
+        <div className='container-fluid d-flex flex-column align-items-center justify-content-center '>
             <form action="POST" >
-                <p className='mt-2'>Username</p>
+                <label className='form-label mt-2'>Username</label>
                 <input className='form-control' type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-                <p className='mt-2'>Password</p>
+                <label className='form-label mt-2'>Password</label>
                 <input className='form-control' type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <div>
                     <Button type='submit' onClick={handleSubmit} className='w-100 p-1 mt-4'>Login</Button>

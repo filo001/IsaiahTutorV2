@@ -39,7 +39,6 @@ function AdminStudentSubmissionPreview({homeworkPreview, setHomeworkPreview, cur
     }
 
     async function handleSubmit() {
-        console.log(payload)
         if (status.variant === 'danger') {
             // Handle error with connection
             setError({msg: 'Invalid Connection', variant: 'danger'})

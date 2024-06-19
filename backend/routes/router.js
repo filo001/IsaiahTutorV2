@@ -288,4 +288,11 @@ router.post('/assignHomework', async(req, res) => {
     res.send({msg: ('Successfully assignned Homework to ' + req.body[1]), variant: 'success'})
 })
 
+router.post('/fetchStudent', async(req,res) => {
+    const usersSchema = schemas.Users
+    const userName = req.body.user
+    const user = await usersSchema.find({name: userName}).exec()
+    res.send(user[0])
+})
+
 module.exports = router
