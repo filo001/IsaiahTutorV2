@@ -6,7 +6,7 @@ import MyHomeworkUpload from "./myHomeworkUpload"
 
 function MyHomeworkNewlyAssigned({fetchUserData}) {
     const user = useContext(UserContext)
-
+    const hasLessons = {homework: false}
     const [preview, setPreview] = useState(undefined)
     const [isPreviewing, setIsPreviewing] = useState(false)
     const [upload, setUpload] = useState(undefined)
@@ -18,6 +18,7 @@ function MyHomeworkNewlyAssigned({fetchUserData}) {
         if (homework.studentSubmission) {
             return
         }
+        hasLessons.homework = true
         const lesson = item.lessonObject
         return (
             <tr key={homework.lessonID}>
@@ -50,6 +51,7 @@ function MyHomeworkNewlyAssigned({fetchUserData}) {
                 </thead>
                 <tbody>
                     {lessonMap.map(lesson => displayHomework(lesson))}
+                    {!hasLessons.homework && <tr><td colSpan='5'>No Homework assigned currently</td></tr>}
                 </tbody>
             </table>
             {preview ? <AdminStudentAssignedHomeworkPreview preview={preview} isPreviewing={isPreviewing} setIsPreviewing={setIsPreviewing}/> : ''}

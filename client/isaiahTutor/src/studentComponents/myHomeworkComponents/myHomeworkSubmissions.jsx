@@ -10,6 +10,7 @@ function MyHomeworkSubmissions({user, fetchUserData}) {
     const [preview, setPreview] = useState(undefined)
     const [isPreviewing, setIsPreviewing] = useState(false)
     const [feedbackPreview, setFeedbackPreview] = useState(undefined)
+    const tableStatus = {hasSubmission: false}
 
     function displaySubmission(item) {
         const homework = item.homeworkObject
@@ -18,6 +19,7 @@ function MyHomeworkSubmissions({user, fetchUserData}) {
             return
         }
 
+        tableStatus.hasSubmission = true
         return (
             <tr key={lesson._id}>
                 <td>
@@ -73,6 +75,7 @@ function MyHomeworkSubmissions({user, fetchUserData}) {
                 </thead>
                 <tbody>
                     {lessonMap.map(lesson => displaySubmission(lesson))}
+                    {!tableStatus.hasSubmission && <tr><td colSpan={3}>You have no submissions currently</td></tr>}
                 </tbody>
             </table>
             {preview ? <AdminStudentAssignedHomeworkPreview preview={preview} isPreviewing={isPreviewing} setIsPreviewing={setIsPreviewing}/> : ''}
