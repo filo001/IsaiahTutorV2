@@ -23,7 +23,7 @@ function StudentMyCourses() {
     }
     return (
         <CourseContext.Provider value={courses}>
-        <div className="w-100 p-2 bg-light rounded">
+        <div className="w-100 p-2 bg-light rounded user-select-none">
             {showCourse ? <MyCourseLessons course={showCourse} setCourse={setShowCourse} /> : <MyCoursesMain setShowCourse={setShowCourse} />}
         </div>
         </CourseContext.Provider>
