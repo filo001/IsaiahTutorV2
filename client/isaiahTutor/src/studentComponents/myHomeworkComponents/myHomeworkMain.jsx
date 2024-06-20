@@ -42,7 +42,7 @@ function MyHomeworkMain () {
         <CurrentUserContext.Provider value={student}>
         <h2>MyHomework</h2>
         <MyHomeworkNewlyAssigned fetchUserData={fetchUserData}/>
-        <MyHomeworkSubmissions user={student} />
+        <MyHomeworkSubmissions fetchUserData={fetchUserData} user={student} />
         </CurrentUserContext.Provider>
         </UserLessonMapContext.Provider>
     )

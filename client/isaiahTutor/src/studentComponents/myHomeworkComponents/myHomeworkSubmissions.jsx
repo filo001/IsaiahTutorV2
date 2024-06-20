@@ -5,7 +5,7 @@ import AdminStudentAssignedHomeworkPreview from "../../components/adminStudentAs
 import AdminStudentArchivedPreview from "../../components/adminStudentArchivedPreview"
 import axios from "axios"
 
-function MyHomeworkSubmissions({user}) {
+function MyHomeworkSubmissions({user, fetchUserData}) {
     const lessonMap = useContext(UserLessonMapContext)
     const [preview, setPreview] = useState(undefined)
     const [isPreviewing, setIsPreviewing] = useState(false)
@@ -20,7 +20,12 @@ function MyHomeworkSubmissions({user}) {
 
         return (
             <tr key={lesson._id}>
-                <td><a href="#" onClick={() => handlePreview(lesson, homework)}>{lesson.name}</a></td>
+                <td>
+                    <div className="d-flex justify-content-between">
+                    <a href="#" onClick={() => handlePreview(lesson, homework)}>{lesson.name}</a>
+                    {(!homework.feedbackViewed && homework.marked) && <span className="badge bg-primary">New</span>}
+                    </div>
+                    </td>
                 <td>{displayScore(homework.score, homework.maxScore)}</td>
                 <td className="text-center">{homework.marked ? 
                     <Button onClick={() => handleFeedback(homework)} variant='dark' className="text-center">View Feedback</Button> : 
@@ -51,7 +56,8 @@ function MyHomeworkSubmissions({user}) {
         const updatedUser = await axios.post(`${import.meta.env.VITE_ENDPOINT}/fetchStudent`, {user: user.name})
         const previousHW = updatedUser.data.homework.filter(h => h ? h.lessonID != homework.lessonID : null)
         const newHW = {...homework, feedbackViewed: true}
-        await axios.post(`${import.meta.env.VITE_ENDPOINT}/assignHomework`, [newHW, updatedUser.data.name, previousHW])
+        await axios.post(`${import.meta.env.VITE_ENDPOINT}/assignHomework`, [newHW, updatedUser.data.name, previousHW]).
+        then(() => fetchUserData())
     }
 
     return (
