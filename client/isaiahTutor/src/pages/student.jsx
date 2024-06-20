@@ -3,6 +3,7 @@ import { LessonsContext } from "../components/context"
 import StudentMyCourses from "../studentComponents/studentMyCourses"
 import StudentMyHomework from "../studentComponents/studentMyHomework"
 import axios from "axios"
+import StudentNotices from "../studentComponents/studentNotices"
 
 function Student() {
     
@@ -15,6 +16,7 @@ function Student() {
                 </div>
                 <div className="col">
                     <StudentMyCourses />
+                    <StudentNotices />
                 </div>
             </div>
         </div>
