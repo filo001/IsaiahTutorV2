@@ -267,7 +267,8 @@ router.post('/deleteLesson', async(req, res) => {
     usersArray.forEach(async(student) => {
         //  Filter homework array so the homework object with the current lesson id is not included
         const newHomeworkArray = student.homework.filter(homework => Boolean(homework) ? homework.lessonID != CURRENTid : false)
-        if (newHomeworkArray == student.homework) {
+        const studentHasItem = student.homework.filter(homework => Boolean(homework) ? homework.lessonID == CURRENTid : false)
+        if (!studentHasItem.length) {
             return
         }
         //  Set that users homework array to the new filtered one
