@@ -35,6 +35,7 @@ function App() {
           {isUserValid() ?  <Home setAuthSession={setAuthSession} /> :<Auth setUser={setUser} setAuthSession={setAuthSession}/>}
       </UserContext.Provider>  
       </LessonsContext.Provider>
+    <footer className='custom-isaiah-header'></footer>
     </>
     
   )
