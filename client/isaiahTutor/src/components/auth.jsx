@@ -50,7 +50,7 @@ function Auth ({ setUser, setAuthSession }) {
     }
 
     return (
-        <div className='container-fluid d-flex flex-column align-items-center justify-content-center '>
+        <div className='container-fluid d-flex flex-column align-items-center justify-content-center' style={{height: '90vh'}}>
             <form action="POST" >
                 <label className='form-label mt-2'>Username</label>
                 <input className='form-control' type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>

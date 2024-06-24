@@ -267,7 +267,8 @@ router.post('/deleteLesson', async(req, res) => {
     usersArray.forEach(async(student) => {
         //  Filter homework array so the homework object with the current lesson id is not included
         const newHomeworkArray = student.homework.filter(homework => Boolean(homework) ? homework.lessonID != CURRENTid : false)
-        if (newHomeworkArray == student.homework) {
+        const studentHasItem = student.homework.filter(homework => Boolean(homework) ? homework.lessonID == CURRENTid : false)
+        if (!studentHasItem.length) {
             return
         }
         //  Set that users homework array to the new filtered one
@@ -293,6 +294,22 @@ router.post('/fetchStudent', async(req,res) => {
     const userName = req.body.user
     const user = await usersSchema.find({name: userName}).exec()
     res.send(user[0])
+})
+
+router.post('/uploadFile', async(req, res) => {
+    const path = req.body.path
+    const content = req.files.file.data
+    const response = await dbx.filesUpload({
+        path: path,
+        contents: content,
+        mode: 'overwrite',
+        autorename: true,
+        mute: false,
+        strict_conflict: false
+    })
+    res.send(response)
+    // this stuff works
+
 })
 
 module.exports = router

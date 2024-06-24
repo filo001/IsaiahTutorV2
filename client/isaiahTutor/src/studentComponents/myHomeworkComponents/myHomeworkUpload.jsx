@@ -39,14 +39,11 @@ function MyHomeworkUpload({upload, setUpload, fetchUserData}) {
 
     async function handleUploadAndLink() {
         setError({msg: 'Uploading file', variant: 'info'})
-        const link = await fetch('https://content.dropboxapi.com/2/files/upload', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${import.meta.env.VITE_DBX}`,
-                'Content-Type': 'application/octet-stream',
-                'Dropbox-API-Arg': `{"path":"/${homework.course}/${user.name}/${homework.name}-submission.pdf","mode":{".tag":"overwrite"},"autorename":true,"mute":false}`
-            },
-            body: file}).then(async() => {
+        const formPayload = new FormData()
+        formPayload.append('file', file)
+        formPayload.append('path', `/${homework.course}/${user.name}/${homework.name}-submission.pdf`)
+        const link = await axios.post(`${import.meta.env.VITE_ENDPOINT}/uploadFile`, formPayload)
+        .then(async() => {
                 setError({msg: 'Creating link', variant: 'info'})
                 return await axios.post(`${import.meta.env.VITE_ENDPOINT}/createLink`, `/${homework.course}/${user.name}/${homework.name}-submission.pdf`)})
         setError({msg: 'File uploaded, uploading other information to database...', variant: 'info'})

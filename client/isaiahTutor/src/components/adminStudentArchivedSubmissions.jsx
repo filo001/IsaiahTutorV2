@@ -7,9 +7,19 @@ function AdminStudentArchivedSubmissions({lessonMap, currentStudent}) {
     const [homeworkPreview, setHomeworkPreview] = useState(undefined)
 
     function mapTable(lessonDict) {
+        if(!lessonDict) {
+            console.log('caught undefined')
+            return
+        }
+
         const homework = lessonDict.homeworkObject
         const lesson = lessonDict.lessonObject
         if (!homework.marked) {
+            return
+        }
+
+        if (!homework || !lesson) {
+            console.log('Bug caught')
             return
         }
 
