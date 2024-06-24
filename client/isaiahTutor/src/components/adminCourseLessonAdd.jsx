@@ -41,17 +41,13 @@ function AdminCourseLessonAdd({ course, setSelected, fetchCourses }) {
         )    
     }
     async function handleUpload(file) {
-       const res = await fetch('https://content.dropboxapi.com/2/files/upload', {
-          method: 'POST',
-          headers: {
-              'Authorization': `Bearer ${import.meta.env.VITE_DBX}`,
-              'Content-Type': 'application/octet-stream',
-              'Dropbox-API-Arg': `{"path":"/${course.name}/${formData.name}.pdf","mode":{".tag":"overwrite"},"autorename":true,"mute":false}`
-          },
-          body: file
-      })
-      return String(res.status).indexOf(0) !== '4' ? {msg: 'File uploaded Successfully', success: 'info'} : {msg: 'AN ERROR OCCURED WITH THE API', success: 'danger'}
-      }
+        const path =   `/${course.name}/${formData.name}.pdf`
+        const formPayload = new FormData()
+        formPayload.append('file', file)
+        formPayload.append('path', path)
+        const res = await axios.post(`${import.meta.env.VITE_ENDPOINT}/uploadFile`, formPayload)
+        return String(res.data.status).indexOf(0) !== '4' ? {msg: 'File uploaded Successfully', success: 'info'} : {msg: 'AN ERROR OCCURED WITH THE API', success: 'danger'}
+        }
 
     async function createLink(name, submitData) {
         const path = `/${course.name}/${name}.pdf`

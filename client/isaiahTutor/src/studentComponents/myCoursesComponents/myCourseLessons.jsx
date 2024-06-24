@@ -13,6 +13,10 @@ function MyCourseLessons({course, setCourse}) {
             return
         }
         const currentLesson = lessons.filter(l => l ? l.lessonID == lesson.lessonID : false)[0]
+        if (!currentLesson || !currentLesson.name) {
+            console.log('Bug Caught')
+            return
+        }
         return (
             <tr key={currentLesson._id}>
                 <td>{currentLesson.name}</td>

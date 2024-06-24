@@ -24,14 +24,11 @@ function AdminStudentSubmissionPreview({homeworkPreview, setHomeworkPreview, cur
 
     async function handleUploadAndLink() {
         setError({msg: 'Uploading file', variant: 'info'})
-        const link = await fetch('https://content.dropboxapi.com/2/files/upload', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${import.meta.env.VITE_DBX}`,
-                'Content-Type': 'application/octet-stream',
-                'Dropbox-API-Arg': `{"path":"/${homeworkPreview.course}/${currentStudent.name}/${homeworkPreview.name}-feedback.pdf","mode":{".tag":"overwrite"},"autorename":true,"mute":false}`
-            },
-            body: file}).then(async() => {
+        const formPayload = new FormData()
+        formPayload.append('file', file)
+        formPayload.append('path', `/${homeworkPreview.course}/${currentStudent.name}/${homeworkPreview.name}-feedback.pdf`)
+        const link = await axios.post(`${import.meta.env.VITE_ENDPOINT}/uploadFile`, formPayload).
+        then(async() => {
                 setError({msg: 'Creating link', variant: 'info'})
                 return await axios.post(`${import.meta.env.VITE_ENDPOINT}/createLink`, `/${homeworkPreview.course}/${currentStudent.name}/${homeworkPreview.name}-feedback.pdf`)})
         setError({msg: 'File uploaded, uploading student feedback to database...', variant: 'info'})

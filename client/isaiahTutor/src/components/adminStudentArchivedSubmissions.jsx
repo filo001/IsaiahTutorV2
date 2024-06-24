@@ -18,6 +18,11 @@ function AdminStudentArchivedSubmissions({lessonMap, currentStudent}) {
             return
         }
 
+        if (!homework || !lesson) {
+            console.log('Bug caught')
+            return
+        }
+
         const score = calculateScore(homework.score, homework.maxScore)
         return (
             <tr key={lesson._id}>

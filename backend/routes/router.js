@@ -296,4 +296,20 @@ router.post('/fetchStudent', async(req,res) => {
     res.send(user[0])
 })
 
+router.post('/uploadFile', async(req, res) => {
+    const path = req.body.path
+    const content = req.files.file.data
+    const response = await dbx.filesUpload({
+        path: path,
+        contents: content,
+        mode: 'overwrite',
+        autorename: true,
+        mute: false,
+        strict_conflict: false
+    })
+    res.send(response)
+    // this stuff works
+
+})
+
 module.exports = router

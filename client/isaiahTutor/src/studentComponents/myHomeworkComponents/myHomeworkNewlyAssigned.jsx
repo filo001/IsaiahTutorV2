@@ -22,6 +22,7 @@ function MyHomeworkNewlyAssigned({fetchUserData}) {
         const lesson = item.lessonObject
         if (!homework || !lesson) {
             console.log("One of the lessons has been deleted but is still in your homework database")
+            console.log('Please Refresh the browser and login again to resolve this issue')
             return
         }
         return (
