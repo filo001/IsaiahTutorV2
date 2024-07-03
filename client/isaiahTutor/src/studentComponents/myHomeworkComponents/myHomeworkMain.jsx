@@ -33,6 +33,7 @@ function MyHomeworkMain () {
             map.push({lessonObject: match[0], homeworkObject: hwItem})
 
         })
+        map.reverse()
         setLessonMap(map)
     }
 

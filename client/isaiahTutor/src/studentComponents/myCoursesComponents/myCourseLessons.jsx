@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Button } from "react-bootstrap"
 import { LessonsContext } from "../../components/context"
 import AdminStudentAssignedHomeworkPreview from "../../components/adminStudentAssignedHomeworkPreview"
@@ -7,6 +7,15 @@ function MyCourseLessons({course, setCourse}) {
     const lessons = useContext(LessonsContext)
     const [preview, setPreview] = useState(undefined)
     const [isPreviewing, setIsPreviewing] = useState(false)
+
+    useEffect(() => {
+        course.lessons.sort((a, b) => {
+            const lessonA = lessons.filter(l => l ? l.lessonID == a.lessonID : false)[0]
+            const lessonb = lessons.filter(l => l ? l.lessonID == b.lessonID : false)[0]
+            return (new Date(lessonb.date)) - (new Date(lessonA.date))
+        })
+        console.log('ran')
+    }, [])
 
     function displayLessons(lesson) {
         if (!lesson) {
